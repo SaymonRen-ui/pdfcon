@@ -29,23 +29,14 @@
 
 ### Релизная подпись
 
-Файл ключа `pdfcon-release.jks` и пароли в `local.properties` **не коммитятся**
-(см. `.gitignore`) и хранятся только у разработчика:
-
-```properties
-release.storeFile=pdfcon-release.jks
-release.keyAlias=pdfcon
-release.storePassword=...
-release.keyPassword=...
-```
-
-Потеря ключа = невозможность обновлять приложение в сторе.
+Ключ `pdfcon-release.jks` и пароли в `local.properties` не коммитятся
+(см. `.gitignore`). Потеря ключа = невозможность обновлять приложение в сторе,
+бэкап обязателен.
 
 ## Монетизация
 
-Межстраничная реклама РСЯ (Яндекс Mobile Ads SDK) показывается один раз —
-после нажатия «Собрать», файл при этом собирается параллельно. Тестовый ID
-заменён боевым в `core/ads/AdManager.kt` (`AD_UNIT_ID`).
+Один interstitial РСЯ после кнопки «Собрать» (сборка PDF идёт параллельно).
+ID блока — `core/ads/AdManager.kt` (`AD_UNIT_ID`).
 
 ## Конфиденциальность
 
