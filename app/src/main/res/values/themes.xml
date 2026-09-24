@@ -1,0 +1,5 @@
+<resources>
+    <style name="Theme.PDFcon" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">?android:attr/colorBackground</item>
+    </style>
+</resources>

@@ -1,0 +1,18 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Белый лист документа -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M33,22 h29 l14,14 v50 h-43 z" />
+    <!-- Загнутый угол в цвет фона -->
+    <path
+        android:fillColor="#D32F2F"
+        android:pathData="M62,22 v14 h14 z" />
+    <!-- Строки текста -->
+    <path
+        android:fillColor="#D32F2F"
+        android:pathData="M39,52 h30 v5 h-30 z M39,61 h30 v5 h-30 z M39,70 h19 v5 h-19 z" />
+</vector>
