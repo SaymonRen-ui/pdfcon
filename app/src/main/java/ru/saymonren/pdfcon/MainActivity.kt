@@ -16,6 +16,7 @@ import androidx.navigation.navArgument
 import ru.saymonren.pdfcon.model.ThemeMode
 import ru.saymonren.pdfcon.ui.PdfViewModel
 import ru.saymonren.pdfcon.ui.screens.BuildScreen
+import ru.saymonren.pdfcon.ui.screens.AboutScreen
 import ru.saymonren.pdfcon.ui.screens.EditorScreen
 import ru.saymonren.pdfcon.ui.screens.HomeScreen
 import ru.saymonren.pdfcon.ui.screens.PreviewScreen
@@ -50,7 +51,8 @@ private fun AppNav(vm: PdfViewModel) {
             HomeScreen(
                 vm = vm,
                 onEdit = { id -> nav.navigate("editor/$id") },
-                onBuild = { nav.navigate("build") }
+                onBuild = { nav.navigate("build") },
+                onAbout = { nav.navigate("about") }
             )
         }
         composable(
@@ -72,6 +74,9 @@ private fun AppNav(vm: PdfViewModel) {
         }
         composable("preview") {
             PreviewScreen(vm = vm, onBack = { nav.popBackStack() })
+        }
+        composable("about") {
+            AboutScreen(onBack = { nav.popBackStack() })
         }
     }
 }

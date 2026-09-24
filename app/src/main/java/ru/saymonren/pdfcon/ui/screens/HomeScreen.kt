@@ -74,7 +74,8 @@ import java.io.File
 fun HomeScreen(
     vm: PdfViewModel,
     onEdit: (String) -> Unit,
-    onBuild: () -> Unit
+    onBuild: () -> Unit,
+    onAbout: () -> Unit
 ) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
@@ -139,6 +140,13 @@ fun HomeScreen(
                         ThemeOption("Тёмная", ThemeMode.DARK, theme) {
                             vm.setTheme(it); themeMenu = false
                         }
+                        DropdownMenuItem(
+                            text = { Text("О приложении") },
+                            onClick = {
+                                themeMenu = false
+                                onAbout()
+                            }
+                        )
                         DropdownMenuItem(
                             text = { Text("Политика конфиденциальности") },
                             onClick = {
