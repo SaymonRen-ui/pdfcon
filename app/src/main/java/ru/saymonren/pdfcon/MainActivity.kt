@@ -1,13 +1,18 @@
 package ru.saymonren.pdfcon
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -27,16 +32,29 @@ class MainActivity : ComponentActivity() {
     private val vm: PdfViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Android 15 рисует приложение под системные панели — отступы
+        // под статус-бар и навигацию задаём сами через WindowInsets.
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContent {
             val theme by vm.theme.collectAsState()
-            PDFconTheme(
-                darkTheme = when (theme) {
-                    ThemeMode.LIGHT -> false
-                    ThemeMode.DARK -> true
-                    ThemeMode.SYSTEM -> isSystemInDarkTheme()
+            val darkTheme = when (theme) {
+                ThemeMode.LIGHT -> false
+                ThemeMode.DARK -> true
+                ThemeMode.SYSTEM -> isSystemInDarkTheme()
+            }
+            PDFconTheme(darkTheme = darkTheme) {
+                // Цвет иконок системных панелей — под тему приложения,
+                // иначе на светлой теме их не будет видно и наоборот.
+                val view = LocalView.current
+                SideEffect {
+                    WindowCompat.getInsetsController(
+                        (view.context as Activity).window, view
+                    ).apply {
+                        isAppearanceLightStatusBars = !darkTheme
+                        isAppearanceLightNavigationBars = !darkTheme
+                    }
                 }
-            ) {
                 AppNav(vm)
             }
         }
