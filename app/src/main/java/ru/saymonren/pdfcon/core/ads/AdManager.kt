@@ -26,6 +26,19 @@ object AdManager {
     private var loader: InterstitialAdLoader? = null
     private var ad: InterstitialAd? = null
 
+    /** Пауза между показами: не чаще раза в 5 минут (требование модерации). */
+    private const val COOLDOWN_MS = 5 * 60 * 1000L
+    private const val PREFS = "ads"
+    private const val KEY_LAST = "last_shown"
+
+    private fun lastShown(context: Context): Long =
+        context.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+            .getLong(KEY_LAST, 0)
+
+    private fun markShown(context: Context) =
+        context.getSharedPreferences(PREFS, android.content.Context.MODE_PRIVATE)
+            .edit().putLong(KEY_LAST, System.currentTimeMillis()).apply()
+
     fun preload(context: Context) {
         if (ad != null) return
         val l = InterstitialAdLoader(context.applicationContext).apply {
@@ -48,13 +61,16 @@ object AdManager {
     }
 
     fun showAndBuild(activity: Activity, onStartBuild: () -> Unit) {
-        val a = ad
+        val cooledDown =
+            System.currentTimeMillis() - lastShown(activity) >= COOLDOWN_MS
+        val a = if (cooledDown) ad else null
         ad = null
         if (a == null) {
             onStartBuild()
             preload(activity)
             return
         }
+        markShown(activity)
         a.setAdEventListener(object : InterstitialAdEventListener {
             override fun onAdShown() {}
             override fun onAdFailedToShow(error: AdError) {}

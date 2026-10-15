@@ -197,7 +197,7 @@ fun BuildScreen(
                 modifier = Modifier.fillMaxWidth()
             ) { Text(if (build.building) "Собираю…" else "Собрать") }
             Text(
-                "Сборка бесплатна — покажем короткую рекламу",
+                "Сборка бесплатна — иногда покажем короткую рекламу",
                 style = MaterialTheme.typography.bodySmall
             )
 
